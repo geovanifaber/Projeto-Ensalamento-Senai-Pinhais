@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SENAI - Ensalamento e Aulas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      font-weight: 400;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      background-color: #0b111e;
+      color: #e2e8f0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    body.admin-view {
+      overflow-y: auto;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        overflow-y: auto;
+      }
+    }
+
+    header {
+      background-color: #111a2e;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #1e293b;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      letter-spacing: 0.5px;
+      color: #38bdf8;
+    }
+
+    .header-time {
+      font-size: 1.1rem;
+      color: #94a3b8;
+    }
+
+    .header-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .badge-admin {
+      background-color: #0284c7;
+      color: #ffffff;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+
+    .btn {
+      padding: 7px 14px;
+      border-radius: 6px;
+      border: 1px solid #334155;
+      background-color: #1e293b;
+      color: #f8fafc;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .btn:hover {
+      background-color: #334155;
+    }
+
+    .btn-primary {
+      background-color: #0284c7;
+      border-color: #0369a1;
+    }
+
+    main {
+      padding: 12px 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    body.admin-view main {
+      overflow: visible;
+      min-height: auto;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      main {
+        overflow: visible;
+        min-height: auto;
+      }
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+      border-left: 4px solid #38bdf8;
+      padding-left: 8px;
+    }
+
+    .visitor-stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .visitor-container {
+      display: grid;
+      gap: 12px;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      justify-content: center;
+      align-content: center;
+    }
+
+    .visitor-container.few-items {
+      height: auto;
+      max-width: 1100px;
+    }
+
+    .visitor-container.few-items .card {
+      min-height: 220px;
+      max-height: 320px;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    @media (max-width: 768px) {
+      .visitor-stage {
+        height: auto;
+        display: block;
+      }
+
+      .visitor-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        height: auto;
+      }
+
+      .visitor-container .card {
+        min-height: 190px !important;
+        max-height: none !important;
+        width: 100% !important;
+        max-width: none !important;
+      }
+    }
+
+    .cards-grid-admin {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background-color: #162032;
+      border-radius: 8px;
+      border: 2px solid #283548;
+      padding: 10px 14px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 0;
+      height: 100%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .card-admin-clickable {
+      cursor: pointer;
+      min-height: 190px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #273549;
+      padding-bottom: 4px;
+      margin-bottom: 4px;
+      flex-shrink: 0;
+    }
+
+    .card-name {
+      font-size: 1.05rem;
+      color: #f1f5f9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-modality {
+      font-size: 0.7rem;
+      padding: 2px 7px;
+      border-radius: 10px;
+      background-color: #334155;
+      color: #cbd5e1;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      font-size: 0.88rem;
+      flex: 1;
+      min-height: 0;
+      padding: 4px 0;
+      gap: 2px;
+    }
+
+    .card-body div {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-item-label {
+      color: #64748b;
+      margin-right: 4px;
+    }
+
+    .card-course {
+      font-size: 1rem;
+      color: #38bdf8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-footer {
+      margin-top: 4px;
+      padding-top: 4px;
+      border-top: 1px solid #273549;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      flex-shrink: 0;
+    }
+
+    .status-badge-active { color: #4ade80; }
+    .status-badge-waiting { color: #facc15; }
+    .status-badge-finished { color: #94a3b8; }
+
+    .card-empty-state {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      color: #64748b;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card.area-eletrica { border-color: #ca8a04; }
+    .card.area-mecanica { border-color: #c2410c; }
+    .card.area-ti { border-color: #15803d; }
+    .card.area-gestao { border-color: #7e22ce; }
+    .card.area-personalizada { border-color: #0284c7; }
+
+    .card.in-class-now.area-eletrica { border-color: #fef08a; box-shadow: 0 0 16px rgba(250, 204, 21, 0.9); }
+    .card.in-class-now.area-mecanica { border-color: #fdba74; box-shadow: 0 0 16px rgba(249, 115, 22, 0.9); }
+    .card.in-class-now.area-ti { border-color: #86efac; box-shadow: 0 0 16px rgba(34, 197, 94, 0.9); }
+    .card.in-class-now.area-gestao { border-color: #d8b4fe; box-shadow: 0 0 16px rgba(168, 85, 247, 0.9); }
+    .card.in-class-now.area-personalizada { border-color: #7dd3fc; box-shadow: 0 0 16px rgba(56, 189, 248, 0.9); }
+
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.75);
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      z-index: 100;
+    }
+
+    .modal-card {
+      background-color: #162032;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 580px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #283548;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-group label {
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+
+    .form-group input, .form-group select {
+      padding: 8px 10px;
+      border-radius: 4px;
+      border: 1px solid #334155;
+      background-color: #0b111e;
+      color: #f8fafc;
+      font-size: 0.85rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    @media (max-width: 540px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+      border-top: 1px solid #283548;
+      padding-top: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .login-box { max-width: 360px; }
+    .error-msg { color: #f87171; font-size: 0.8rem; margin-top: 6px; display: none; }
+  </style>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <div class="brand-title">SENAI - Ensalamento e Aulas</div>
+      <div class="header-time" id="liveClock">00:00:00</div>
+    </div>
+    <div class="header-right" id="headerActions">
+      <button class="btn" onclick="openLoginModal()">Login</button>
+    </div>
+  </header>
+
+  <main id="mainContainer"></main>
+
+  <div class="modal-backdrop" id="loginModal">
+    <div class="modal-card login-box">
+      <div class="modal-header">
+        <h3 style="color:#f1f5f9; font-size:1.1rem;">Autenticação do Administrador</h3>
+      </div>
+      <form id="loginForm" onsubmit="handleLoginSubmit(event)">
+        <div class="form-group">
+          <label for="loginUser">Usuário</label>
+          <input type="text" id="loginUser" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPass">Senha</label>
+          <input type="password" id="loginPass" required>
+        </div>
+        <div class="error-msg" id="loginErrorMsg">Usuário ou senha inválidos.</div>
+        <div class="modal-actions" style="justify-content: flex-end; gap:8px;">
+          <button type="button" class="btn" onclick="closeLoginModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Entrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="adminModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="color:#f1f5f9; font-size:1.1rem;" id="adminModalTitle">Configurar Ambiente</h3>
+      </div>
+      <form id="roomForm" onsubmit="handleRoomFormSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="inputArea">Área do Curso *</label>
+            <select id="inputArea" onchange="toggleCustomAreaField()" required>
+              <option value="">Selecione a área...</option>
+              <option value="eletrica">Elétrica</option>
+              <option value="mecanica">Mecânica</option>
+              <option value="ti">Desenvolvimento de Sistemas</option>
+              <option value="gestao">Gestão</option>
+              <option value="novo">Novo (Inserir área manualmente)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="inputModality">Modalidade *</label>
+            <select id="inputModality" required>
+              <option value="">Selecione...</option>
+              <option value="Presencial">Presencial</option>
+              <option value="Semipresencial">Semipresencial</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" id="customAreaGroup" style="display: none;">
+          <label for="inputCustomArea">Nome da Nova Área *</label>
+          <input type="text" id="inputCustomArea">
+        </div>
+
+        <div class="form-group">
+          <label for="inputCourse">Curso *</label>
+          <select id="inputCourse" onchange="toggleCustomCourseField()" required></select>
+        </div>
+
+        <div class="form-group" id="customCourseGroup" style="display: none;">
+          <label for="inputCustomCourse">Nome do Novo Curso *</label>
+          <input type="text" id="inputCustomCourse">
+        </div>
+
+        <div class="form-group">
+          <label for="inputSchedulePreset">Horário de Aula *</label>
+          <select id="inputSchedulePreset" onchange="toggleScheduleCustomFields()" required>
+            <option value="default">18h30 às 22h30 (Padrão)</option>
+            <option value="custom">Editar horários (Personalizado)</option>
+          </select>
+        </div>
+
+        <div class="form-row" id="customScheduleRow" style="display: none;">
+          <div class="form-group">
+            <label for="inputStartTime">Início *</label>
+            <input type="time" id="inputStartTime" value="18:30">
+          </div>
+          <div class="form-group">
+            <label for="inputEndTime">Término *</label>
+            <input type="time" id="inputEndTime" value="22:30">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputTeacher">Professor *</label>
+          <input type="text" id="inputTeacher" list="teachersList" required>
+          <datalist id="teachersList"></datalist>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="inputClassCode">Código da Turma *</label>
+            <input type="text" id="inputClassCode" required>
+          </div>
+          <div class="form-group">
+            <label for="inputModule">Módulo *</label>
+            <input type="text" id="inputModule" required>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn" onclick="clearCurrentRoomData()">Limpar Ambiente</button>
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="btn" onclick="closeAdminModal()">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Salvar e Fechar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    var defaultRooms = [
+      { id: "lab-info", name: "Lab. Informática", type: "lab" },
+      { id: "lab-eletrica-predial", name: "Lab. Elétrica Predial", type: "lab" },
+      { id: "lab-eletrica-industrial", name: "Lab. Elétrica Industrial", type: "lab" },
+      { id: "lab-automacao", name: "Lab. Automação", type: "lab" },
+      { id: "lab-mecanica", name: "Lab. Mecânica", type: "lab" },
+      { id: "lab-solda", name: "Lab. Solda", type: "lab" },
+      { id: "lab-cnc", name: "Lab. CNC", type: "lab" },
+      { id: "sala-1", name: "Sala 01", type: "sala" },
+      { id: "sala-2", name: "Sala 02", type: "sala" },
+      { id: "sala-3", name: "Sala 03", type: "sala" },
+      { id: "sala-4", name: "Sala 04", type: "sala" },
+      { id: "sala-5", name: "Sala 05", type: "sala" },
+      { id: "sala-6", name: "Sala 06", type: "sala" },
+      { id: "sala-7", name: "Sala 07", type: "sala" },
+      { id: "sala-8", name: "Sala 08", type: "sala" },
+      { id: "sala-9", name: "Sala 09", type: "sala" },
+      { id: "sala-10", name: "Sala 10", type: "sala" }
+    ];
+
+    var teachers = [
+      "ADILSON JOSE FERREIRA", "ANDERSON ALESSI GUEBUR", "ARSILDO WARKEN",
+      "CELSO LUIZ BONFIM", "DANIEL GUIARI", "GABRIEL GARCIA MELLO",
+      "LUCINEI DOS SANTOS CAVALCANTE", "LUIS FÁBIO MENONCIN", "MARLON ADRIANO MONTEIRO",
+      "PAULO CESAR RIOS ESCALANTE", "RAFAEL OLSEMANN", "REGINALDO DOS SANTOS CORDEIRO",
+      "ROBSON MARCIANO PINHEIRO", "RODRIGO ROEHRIG", "ROGERIO SANTOS DA ROCHA",
+      "VALCY BARBOSA DA SILVA", "VICTOR HUGO PANCERA TEDESCHI", "WALCIMAR LOPES PEREIRA"
+    ];
+
+    var initialCourses = [
+      "Automação Industrial", "Eletromecânica", "Eletrotécnica",
+      "Desenvolvimento de Sistemas", "Logística", "Mecânica",
+      "Administração", "Soldador", "OPP", "Eletricista Industrial",
+      "EJA - Auxiliar Administrativo", "Ajustagem Mecânica",
+      "Eletricidade Básica Predial", "Programação e Operação de Torno CNC",
+      "Tornearia Mecânica"
+    ];
+
+    var coursesList = initialCourses.slice();
+    var scheduleData = {};
+    var isAdminLoggedIn = false;
+    var currentSelectedRoomId = "lab-info";
+    var isInitialLoadComplete = false;
+
+    function getTodayDateKey() {
+      var now = new Date();
+      var year = now.getFullYear();
+      var month = String(now.getMonth() + 1);
+      var day = String(now.getDate());
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+      return year + '-' + month + '-' + day;
+    }
+
+    // Limpa automaticamente salas expiradas por data ou horário tanto no estado local quanto no Firebase
+    function purgeExpiredRoomsFromDatabase() {
+      var today = getTodayDateKey();
+      var now = new Date();
+      var currentMinutes = now.getHours() * 60 + now.getMinutes();
+      var changed = false;
+
+      Object.keys(scheduleData).forEach(function(roomId) {
+        var data = scheduleData[roomId];
+        if (!data) return;
+
+        var isExpiredDate = !data.dateKey || data.dateKey !== today;
+
+        var endTime = data.endTime || '22:30';
+        var endParts = endTime.split(':');
+        var endMinutes = parseInt(endParts[0], 10) * 60 + parseInt(endParts[1], 10);
+        var isExpiredTime = currentMinutes > endMinutes;
+
+        // Se a data já mudou ou o horário de término foi ultrapassado, remove permanentemente
+        if (isExpiredDate || isExpiredTime) {
+          delete scheduleData[roomId];
+          changed = true;
+          if (roomsCollection) {
+            roomsCollection.doc(roomId).delete().catch(function(err) {
+              console.error("Erro ao purgar sala expirada:", err);
+            });
+          }
+        }
+      });
+
+      if (changed) {
+        renderCards();
+      }
+    }
+
+    function updateClock() {
+      var clockElement = document.getElementById('liveClock');
+      if (!clockElement) return;
+      var now = new Date();
+      var h = String(now.getHours());
+      var m = String(now.getMinutes());
+      var s = String(now.getSeconds());
+      if (h.length < 2) h = "0" + h;
+      if (m.length < 2) m = "0" + m;
+      if (s.length < 2) s = "0" + s;
+      clockElement.textContent = h + ":" + m + ":" + s;
+
+      // Executa a purga automática a cada virada de minuto
+      if (s === "00" && isInitialLoadComplete) {
+        purgeExpiredRoomsFromDatabase();
+        renderCards();
+      }
+    }
+
+    function isRoomScheduled(roomId) {
+      var data = scheduleData[roomId];
+      return !!(data && data.course && data.teacher);
+    }
+
+    function isRoomActiveNow(roomId) {
+      if (!isRoomScheduled(roomId)) return false;
+      var data = scheduleData[roomId];
+
+      var today = getTodayDateKey();
+      if (!data.dateKey || data.dateKey !== today) {
+        return false;
+      }
+
+      var endTime = data.endTime || '22:30';
+      var now = new Date();
+      var currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+      var endParts = endTime.split(':');
+      var endMinutes = parseInt(endParts[0], 10) * 60 + parseInt(endParts[1], 10);
+
+      return currentMinutes <= endMinutes;
+    }
+
+    function getRoomTimeStatus(data) {
+      var startTime = (data && data.startTime) ? data.startTime : '18:30';
+      var endTime = (data && data.endTime) ? data.endTime : '22:30';
+
+      var now = new Date();
+      var currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+      var startParts = startTime.split(':');
+      var endParts = endTime.split(':');
+      var startMinutes = parseInt(startParts[0], 10) * 60 + parseInt(startParts[1], 10);
+      var endMinutes = parseInt(endParts[0], 10) * 60 + parseInt(endParts[1], 10);
+
+      if (currentMinutes >= startMinutes && currentMinutes <= endMinutes) {
+        return { isInClass: true, text: 'Em Aula', labelClass: 'status-badge-active' };
+      } else if (currentMinutes < startMinutes) {
+        return { isInClass: false, text: 'Aguardando', labelClass: 'status-badge-waiting' };
+      } else {
+        return { isInClass: false, text: 'Encerrada', labelClass: 'status-badge-finished' };
+      }
+    }
+
+    function formatTimeDisplay(startTime, endTime) {
+      function clean(t) {
+        var parts = (t || '18:30').split(':');
+        return parts[1] === '00' ? parts[0] + 'h' : parts[0] + 'h' + parts[1];
+      }
+      return clean(startTime) + " às " + clean(endTime);
+    }
+
+    function calculateGridDimensions(totalItems) {
+      if (totalItems <= 1) return { cols: 1, rows: 1, isFew: true };
+      if (totalItems === 2) return { cols: 2, rows: 1, isFew: true };
+      if (totalItems === 3) return { cols: 3, rows: 1, isFew: true };
+      if (totalItems === 4) return { cols: 2, rows: 2, isFew: true };
+      if (totalItems <= 6) return { cols: 3, rows: 2, isFew: false };
+      if (totalItems <= 8) return { cols: 4, rows: 2, isFew: false };
+      if (totalItems <= 9) return { cols: 3, rows: 3, isFew: false };
+      if (totalItems <= 12) return { cols: 4, rows: 3, isFew: false };
+      if (totalItems <= 15) return { cols: 5, rows: 3, isFew: false };
+      if (totalItems <= 16) return { cols: 4, rows: 4, isFew: false };
+      return { cols: 6, rows: 3, isFew: false };
+    }
+
+    function createViewerCard(room, data) {
+      var card = document.createElement('div');
+      card.className = 'card';
+
+      if (['eletrica', 'mecanica', 'ti', 'gestao'].indexOf(data.areaKey) !== -1) {
+        card.classList.add('area-' + data.areaKey);
+      } else if (data.areaName) {
+        card.classList.add('area-personalizada');
+      }
+
+      var status = getRoomTimeStatus(data);
+      if (status.isInClass) {
+        card.classList.add('in-class-now');
+      }
+
+      var timeText = formatTimeDisplay(data.startTime, data.endTime);
+
+      card.innerHTML = 
+        '<div class="card-header">' +
+          '<div class="card-name">' + room.name + '</div>' +
+          '<div class="card-modality">' + (data.modality || 'Presencial') + '</div>' +
+        '</div>' +
+        '<div class="card-body">' +
+          '<div class="card-course">' + (data.course || '') + '</div>' +
+          '<div><span class="card-item-label">Professor:</span>' + (data.teacher || '') + '</div>' +
+          '<div><span class="card-item-label">Turma:</span>' + (data.classCode || '') + '</div>' +
+          '<div><span class="card-item-label">Módulo:</span>' + (data.module || '') + '</div>' +
+        '</div>' +
+        '<div class="card-footer">' +
+          '<span>Horário: ' + timeText + '</span>' +
+          '<span class="' + status.labelClass + '">' + status.text + '</span>' +
+        '</div>';
+
+      return card;
+    }
+
+    function createAdminCard(room, data) {
+      var card = document.createElement('div');
+      card.className = 'card card-admin-clickable';
+      card.onclick = function() { editSpecificRoom(room.id); };
+
+      var scheduled = isRoomActiveNow(room.id);
+
+      if (scheduled) {
+        if (['eletrica', 'mecanica', 'ti', 'gestao'].indexOf(data.areaKey) !== -1) {
+          card.classList.add('area-' + data.areaKey);
+        } else if (data.areaName) {
+          card.classList.add('area-personalizada');
+        }
+
+        var status = getRoomTimeStatus(data);
+        if (status.isInClass) {
+          card.classList.add('in-class-now');
+        }
+
+        var timeText = formatTimeDisplay(data.startTime, data.endTime);
+
+        card.innerHTML = 
+          '<div class="card-header">' +
+            '<div class="card-name">' + room.name + '</div>' +
+            '<div class="card-modality">' + (data.modality || 'Presencial') + '</div>' +
+          '</div>' +
+          '<div class="card-body">' +
+            '<div class="card-course">' + (data.course || '') + '</div>' +
+            '<div><span class="card-item-label">Professor:</span>' + (data.teacher || '') + '</div>' +
+            '<div><span class="card-item-label">Turma:</span>' + (data.classCode || '') + '</div>' +
+            '<div><span class="card-item-label">Módulo:</span>' + (data.module || '') + '</div>' +
+          '</div>' +
+          '<div class="card-footer">' +
+            '<span>Horário: ' + timeText + '</span>' +
+            '<span class="' + status.labelClass + '">' + status.text + '</span>' +
+          '</div>';
+      } else {
+        card.innerHTML = 
+          '<div class="card-header">' +
+            '<div class="card-name">' + room.name + '</div>' +
+            '<div class="card-modality">Livre</div>' +
+          '</div>' +
+          '<div class="card-empty-state">Clique para configurar</div>' +
+          '<div class="card-footer">' +
+            '<span>Horário: 18h30 às 22h30</span>' +
+            '<span>Livre</span>' +
+          '</div>';
+      }
+
+      return card;
+    }
+
+    function renderCards() {
+      var mainContainer = document.getElementById('mainContainer');
+      if (!mainContainer) return;
+
+      if (!isInitialLoadComplete && !isAdminLoggedIn) {
+        mainContainer.innerHTML = '';
+        return;
+      }
+
+      mainContainer.innerHTML = '';
+
+      if (isAdminLoggedIn) {
+        var labSection = document.createElement('section');
+        labSection.innerHTML = '<h2 class="section-title">Laboratórios</h2><div class="cards-grid-admin" id="adminLabsGrid"></div>';
+        mainContainer.appendChild(labSection);
+
+        var roomSection = document.createElement('section');
+        roomSection.innerHTML = '<h2 class="section-title">Salas de Aula (1 a 10)</h2><div class="cards-grid-admin" id="adminRoomsGrid"></div>';
+        mainContainer.appendChild(roomSection);
+
+        var labsGrid = labSection.querySelector('#adminLabsGrid');
+        var roomsGrid = roomSection.querySelector('#adminRoomsGrid');
+
+        defaultRooms.forEach(function(room) {
+          var data = scheduleData[room.id] || {};
+          var card = createAdminCard(room, data);
+          if (room.type === 'lab') {
+            labsGrid.appendChild(card);
+          } else {
+            roomsGrid.appendChild(card);
+          }
+        });
+      } else {
+        var activeRooms = defaultRooms.filter(function(r) { return isRoomActiveNow(r.id); });
+
+        var stage = document.createElement('div');
+        stage.className = 'visitor-stage';
+
+        if (activeRooms.length === 0) {
+          var emptyBox = document.createElement('div');
+          emptyBox.style.cssText = 'color:#64748b; font-size:1.15rem; letter-spacing:0.5px; border: 1px dashed #334155; padding: 28px 36px; border-radius: 8px; background-color: #111a2e; text-align: center;';
+          emptyBox.textContent = 'Nenhuma aula em andamento no momento.';
+          stage.appendChild(emptyBox);
+          mainContainer.appendChild(stage);
+          return;
+        }
+
+        var dims = calculateGridDimensions(activeRooms.length);
+        var grid = document.createElement('div');
+        grid.className = 'visitor-container' + (dims.isFew ? ' few-items' : '');
+
+        if (window.innerWidth > 768) {
+          grid.style.gridTemplateColumns = 'repeat(' + dims.cols + ', minmax(0, 1fr))';
+          if (!dims.isFew) {
+            grid.style.gridTemplateRows = 'repeat(' + dims.rows + ', minmax(0, 1fr))';
+          }
+        }
+
+        activeRooms.forEach(function(room) {
+          grid.appendChild(createViewerCard(room, scheduleData[room.id] || {}));
+        });
+
+        stage.appendChild(grid);
+        mainContainer.appendChild(stage);
+      }
+    }
+
+    function setupTeacherDatalist() {
+      var datalist = document.getElementById('teachersList');
+      if (!datalist) return;
+      datalist.innerHTML = '';
+      teachers.forEach(function(teacher) {
+        var option = document.createElement('option');
+        option.value = teacher;
+        datalist.appendChild(option);
+      });
+    }
+
+    function setupCoursesSelect(selectedValue) {
+      var select = document.getElementById('inputCourse');
+      if (!select) return;
+      select.innerHTML = '';
+
+      var defaultOpt = document.createElement('option');
+      defaultOpt.value = '';
+      defaultOpt.textContent = 'Selecione o curso...';
+      select.appendChild(defaultOpt);
+
+      coursesList.forEach(function(course) {
+        var opt = document.createElement('option');
+        opt.value = course;
+        opt.textContent = course;
+        select.appendChild(opt);
+      });
+
+      var newOpt = document.createElement('option');
+      newOpt.value = 'novo';
+      newOpt.textContent = 'Novo (Inserir curso manualmente)';
+      select.appendChild(newOpt);
+
+      if (selectedValue) {
+        select.value = selectedValue;
+      }
+    }
+
+    function toggleCustomCourseField() {
+      var select = document.getElementById('inputCourse');
+      var customGroup = document.getElementById('customCourseGroup');
+      var customInput = document.getElementById('inputCustomCourse');
+      if (select.value === 'novo') {
+        customGroup.style.display = 'flex';
+        customInput.required = true;
+      } else {
+        customGroup.style.display = 'none';
+        customInput.required = false;
+        customInput.value = '';
+      }
+    }
+
+    function toggleCustomAreaField() {
+      var select = document.getElementById('inputArea');
+      var customGroup = document.getElementById('customAreaGroup');
+      var customInput = document.getElementById('inputCustomArea');
+      if (select.value === 'novo') {
+        customGroup.style.display = 'flex';
+        customInput.required = true;
+      } else {
+        customGroup.style.display = 'none';
+        customInput.required = false;
+        customInput.value = '';
+      }
+    }
+
+    function toggleScheduleCustomFields() {
+      var preset = document.getElementById('inputSchedulePreset').value;
+      var customRow = document.getElementById('customScheduleRow');
+      var startInput = document.getElementById('inputStartTime');
+      var endInput = document.getElementById('inputEndTime');
+      if (preset === 'custom') {
+        customRow.style.display = 'grid';
+        startInput.required = true;
+        endInput.required = true;
+      } else {
+        customRow.style.display = 'none';
+        startInput.required = false;
+        endInput.required = false;
+        startInput.value = '18:30';
+        endInput.value = '22:30';
+      }
+    }
+
+    function openLoginModal() {
+      document.getElementById('loginUser').value = '';
+      document.getElementById('loginPass').value = '';
+      document.getElementById('loginErrorMsg').style.display = 'none';
+      document.getElementById('loginModal').style.display = 'flex';
+    }
+
+    function closeLoginModal() {
+      document.getElementById('loginModal').style.display = 'none';
+    }
+
+    function handleLoginSubmit(event) {
+      event.preventDefault();
+      var user = document.getElementById('loginUser').value.trim();
+      var pass = document.getElementById('loginPass').value.trim();
+
+      if (user === 'amanda' && pass === 'SistemaSenai@') {
+        isAdminLoggedIn = true;
+        document.body.classList.add('admin-view');
+        document.getElementById('headerActions').innerHTML = 
+          '<span class="badge-admin">Administrador</span> ' +
+          '<button class="btn" onclick="logoutAdmin()">Sair</button>';
+        closeLoginModal();
+        renderCards();
+      } else {
+        document.getElementById('loginErrorMsg').style.display = 'block';
+      }
+    }
+
+    function logoutAdmin() {
+      isAdminLoggedIn = false;
+      document.body.classList.remove('admin-view');
+      document.getElementById('headerActions').innerHTML = '<button class="btn" onclick="openLoginModal()">Login</button>';
+      renderCards();
+    }
+
+    function editSpecificRoom(roomId) {
+      currentSelectedRoomId = roomId;
+      var roomObj = defaultRooms.filter(function(r) { return r.id === roomId; })[0];
+      document.getElementById('adminModalTitle').textContent = 'Configurar: ' + (roomObj ? roomObj.name : 'Ambiente');
+      loadRoomDataIntoForm();
+      document.getElementById('adminModal').style.display = 'flex';
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminModal').style.display = 'none';
+    }
+
+    function loadRoomDataIntoForm() {
+      var data = scheduleData[currentSelectedRoomId] || {};
+
+      var areaSelect = document.getElementById('inputArea');
+      var customAreaInput = document.getElementById('inputCustomArea');
+      if (['eletrica', 'mecanica', 'ti', 'gestao'].indexOf(data.areaKey) !== -1) {
+        areaSelect.value = data.areaKey;
+        customAreaInput.value = '';
+      } else if (data.areaName) {
+        areaSelect.value = 'novo';
+        customAreaInput.value = data.areaName;
+      } else {
+        areaSelect.value = '';
+        customAreaInput.value = '';
+      }
+      toggleCustomAreaField();
+
+      document.getElementById('inputModality').value = data.modality || '';
+
+      var courseSelect = document.getElementById('inputCourse');
+      var customCourseInput = document.getElementById('inputCustomCourse');
+      if (data.course && coursesList.indexOf(data.course) !== -1) {
+        setupCoursesSelect(data.course);
+        customCourseInput.value = '';
+      } else if (data.course) {
+        setupCoursesSelect('novo');
+        customCourseInput.value = data.course;
+      } else {
+        setupCoursesSelect('');
+        customCourseInput.value = '';
+      }
+      toggleCustomCourseField();
+
+      var presetSelect = document.getElementById('inputSchedulePreset');
+      var startInput = document.getElementById('inputStartTime');
+      var endInput = document.getElementById('inputEndTime');
+
+      if (data.schedulePreset === 'custom') {
+        presetSelect.value = 'custom';
+        startInput.value = data.startTime || '18:30';
+        endInput.value = data.endTime || '22:30';
+      } else {
+        presetSelect.value = 'default';
+        startInput.value = '18:30';
+        endInput.value = '22:30';
+      }
+      toggleScheduleCustomFields();
+
+      document.getElementById('inputTeacher').value = data.teacher || '';
+      document.getElementById('inputClassCode').value = data.classCode || '';
+      document.getElementById('inputModule').value = data.module || '';
+    }
+
+    var roomsCollection = null;
+    var coursesDoc = null;
+
+    function initFirebase() {
+      var firebaseConfig = {
+        apiKey: "AIzaSyD9Cco2nRxMxssOUV_RZ0jdC_FSM_lcaZI",
+        authDomain: "ensalamento-senai.firebaseapp.com",
+        projectId: "ensalamento-senai",
+        storageBucket: "ensalamento-senai.firebasestorage.app",
+        messagingSenderId: "1070417452971",
+        appId: "1:1070417452971:web:b38bbc7e591db423413cee"
+      };
+
+      try {
+        if (!window.firebase) return;
+        if (!firebase.apps.length) {
+          firebase.initializeApp(firebaseConfig);
+        }
+        var db = firebase.firestore();
+        db.settings({ experimentalForceLongPolling: true });
+        roomsCollection = db.collection('ensalamento_salas');
+        coursesDoc = db.collection('ensalamento_config').doc('cursos');
+
+        function fetchRoomsOnce() {
+          roomsCollection.get().then(function(snapshot) {
+            scheduleData = {};
+            snapshot.forEach(function(doc) {
+              scheduleData[doc.id] = doc.data();
+            });
+            isInitialLoadComplete = true;
+            purgeExpiredRoomsFromDatabase();
+            renderCards();
+          }).catch(function(e) {
+            console.error("Erro ao ler salas:", e);
+            isInitialLoadComplete = true;
+            renderCards();
+          });
+        }
+
+        function fetchCoursesOnce() {
+          coursesDoc.get().then(function(doc) {
+            if (doc.exists && doc.data().lista) {
+              coursesList = doc.data().lista.filter(function(c) {
+                return c.toLowerCase() !== "curso teste";
+              });
+              setupCoursesSelect();
+            }
+          }).catch(function(e) {
+            console.error("Erro ao ler cursos:", e);
+          });
+        }
+
+        fetchRoomsOnce();
+        fetchCoursesOnce();
+
+        try {
+          roomsCollection.onSnapshot(function(snapshot) {
+            scheduleData = {};
+            snapshot.forEach(function(doc) {
+              scheduleData[doc.id] = doc.data();
+            });
+            isInitialLoadComplete = true;
+            purgeExpiredRoomsFromDatabase();
+            renderCards();
+          }, function(err) {
+            console.warn("Realtime falhou, usando polling:", err);
+            setInterval(fetchRoomsOnce, 10000);
+          });
+
+          coursesDoc.onSnapshot(function(doc) {
+            if (doc.exists && doc.data().lista) {
+              coursesList = doc.data().lista.filter(function(c) {
+                return c.toLowerCase() !== "curso teste";
+              });
+              setupCoursesSelect();
+            }
+          }, function(err) {
+            setInterval(fetchCoursesOnce, 10000);
+          });
+        } catch (subErr) {
+          setInterval(fetchRoomsOnce, 10000);
+          setInterval(fetchCoursesOnce, 10000);
+        }
+
+      } catch (err) {
+        console.error("Erro geral Firebase:", err);
+        isInitialLoadComplete = true;
+        renderCards();
+      }
+    }
+
+    function handleRoomFormSubmit(event) {
+      event.preventDefault();
+
+      var areaSelect = document.getElementById('inputArea').value;
+      var customAreaVal = document.getElementById('inputCustomArea').value.trim();
+      var areaKey = '';
+      var areaName = '';
+
+      if (areaSelect === 'novo') {
+        if (!customAreaVal) {
+          alert('Por favor, informe o nome da nova área.');
+          return;
+        }
+        areaKey = 'personalizada';
+        areaName = customAreaVal;
+      } else {
+        areaKey = areaSelect;
+        var selectedAreaOption = document.getElementById('inputArea').selectedOptions[0];
+        areaName = selectedAreaOption ? selectedAreaOption.textContent : '';
+      }
+
+      var modality = document.getElementById('inputModality').value.trim();
+      var courseSelect = document.getElementById('inputCourse').value;
+      var customCourseVal = document.getElementById('inputCustomCourse').value.trim();
+      var courseName = '';
+
+      if (courseSelect === 'novo') {
+        if (!customCourseVal) {
+          alert('Por favor, informe o nome do novo curso.');
+          return;
+        }
+        courseName = customCourseVal;
+        if (coursesList.indexOf(courseName) === -1) {
+          coursesList.push(courseName);
+          if (coursesDoc) {
+            coursesDoc.set({ lista: coursesList });
+          }
+          setupCoursesSelect(courseName);
+        }
+      } else {
+        courseName = courseSelect;
+      }
+
+      var preset = document.getElementById('inputSchedulePreset').value;
+      var startTime = '18:30';
+      var endTime = '22:30';
+
+      if (preset === 'custom') {
+        startTime = document.getElementById('inputStartTime').value;
+        endTime = document.getElementById('inputEndTime').value;
+      }
+
+      var teacher = document.getElementById('inputTeacher').value.trim();
+      var classCode = document.getElementById('inputClassCode').value.trim();
+      var moduleVal = document.getElementById('inputModule').value.trim();
+
+      var roomPayload = {
+        areaKey: areaKey,
+        areaName: areaName,
+        modality: modality,
+        course: courseName,
+        schedulePreset: preset,
+        startTime: startTime,
+        endTime: endTime,
+        teacher: teacher,
+        classCode: classCode,
+        module: moduleVal,
+        dateKey: getTodayDateKey()
+      };
+
+      if (roomsCollection) {
+        roomsCollection.doc(currentSelectedRoomId).set(roomPayload).then(function() {
+          scheduleData[currentSelectedRoomId] = roomPayload;
+          closeAdminModal();
+          renderCards();
+        }).catch(function(err) {
+          console.error("Erro ao salvar:", err);
+          alert("Erro ao salvar dados.");
+        });
+      }
+    }
+
+    function clearCurrentRoomData() {
+      if (roomsCollection) {
+        roomsCollection.doc(currentSelectedRoomId).delete().then(function() {
+          delete scheduleData[currentSelectedRoomId];
+          loadRoomDataIntoForm();
+          closeAdminModal();
+          renderCards();
+        }).catch(function(err) {
+          console.error("Erro ao limpar:", err);
+          alert("Erro ao limpar sala.");
+        });
+      }
+    }
+
+    window.addEventListener('resize', function() {
+      if (!isAdminLoggedIn) {
+        renderCards();
+      }
+    });
+
+    updateClock();
+    setInterval(updateClock, 1000);
+    setupTeacherDatalist();
+    setupCoursesSelect();
+
+    setTimeout(function() {
+      if (!isInitialLoadComplete) {
+        isInitialLoadComplete = true;
+        purgeExpiredRoomsFromDatabase();
+        renderCards();
+      }
+    }, 1200);
+
+    setTimeout(initFirebase, 50);
+  </script>
+</body>
+</html>
